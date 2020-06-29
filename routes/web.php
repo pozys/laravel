@@ -13,14 +13,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return 'Hello!';
-});
+Route::get('/', 'MainController@WelcomePage');
 
 Route::get('/about', function () {
     return 'Important information about our project';
 });
+Route::group(
+    [
+        'prefix' => 'categories',
+        'as' => 'categories.'
+    ],
+    function () {
+        Route::get('/', 'NewsController@getNewsCategories')->name('getNewsCategories');
+        Route::get('/{id}', 'NewsController@getNewsByCategoryId')->name('getNewsByCategoryId');
+    }
+);
 
-Route::get('/news', function () {
-    return 'news';
-});
+Route::group(
+    [
+        'prefix' => 'news',
+        'as' => 'news.'
+    ],
+    function () {
+        Route::get('/add', 'NewsController@openAddingNewsPage')->name('addingNewsPage');
+        Route::get('/{id}', 'NewsController@getNewsById')->name('getNewsById');
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'auth',
+        'as' => 'auth.'
+    ],
+    function () {
+        Route::get('/', 'AuthorizationController@main')->name('auth_main');
+        Route::get('/check', 'AuthorizationController@authorization')->name('authorization');
+    }
+);
