@@ -19,18 +19,13 @@ class NewsController extends Controller
 
     public function getNewsByCategoryId(int $id)
     {
-        $result = [];
         $news = $this->NewsByCategoryId($id);
-
+        
         if (!$news) {
             return 'Указан некорректный id категории.';
         }
-
-        foreach ($news as $key => $item) {
-            $result[] = '<a href=' . route('news.getNewsById', $key) . '><h3>' . $item['title'] . '</h3></a>';
-        }
-
-        return implode('<br>', $result);
+        $categories = $this->NewsCategories();
+        return view('news.news_category', ['news'=>$news, 'categories'=>$categories]);
     }
 
     public function getNewsById(int $id)
@@ -41,10 +36,9 @@ class NewsController extends Controller
         if (!array_key_exists($id, $news)) {
             return 'Указан некорректный id новости.';
         }
-
+        $categories = $this->NewsCategories();
         $news = $news[$id];
-        $result .= '<h3>' . $news['title'] . '</h3>' . PHP_EOL . $news['body'];
-
+        return view('news.news_item', ['news'=>$news, 'categories'=>$categories]);
         return $result;
     }
 

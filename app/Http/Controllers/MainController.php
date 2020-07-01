@@ -8,9 +8,8 @@ class MainController extends Controller
 {
     function WelcomePage()
     {
-        return 'Самые важные новости обо всем на свете!
-        <br>
-        <a href=' . route('categories.getNewsCategories') . '>Открыть ленту новостей</a><br>
-        <a href=' . route('auth.auth_main') . '>Войти</a>';
+        $categories = $this->NewsCategories();
+        $news = $this->getAllNews();
+        return view('news.index', ['categories' => $categories, 'news' => $news]);
     }
 }

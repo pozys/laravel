@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', 'MainController@WelcomePage');
 Route::get('/', 'MainController@WelcomePage');
 
 Route::get('/about', function () {
@@ -50,3 +51,8 @@ Route::group(
         Route::get('/check', 'AuthorizationController@authorization')->name('authorization');
     }
 );
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
